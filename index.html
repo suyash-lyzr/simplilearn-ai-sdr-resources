@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="sage">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>AI SDR Outreach Assistant — Workshop Resources</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="sage.css" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: hsl(var(--background));
+    color: hsl(var(--foreground));
+    font-family: var(--font-sans);
+    font-size: 15px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ---------- layout ---------- */
+  .shell { display: flex; align-items: flex-start; }
+
+  aside {
+    position: sticky; top: 0; flex: none;
+    width: 268px; height: 100vh;
+    border-right: 1px solid hsl(var(--border));
+    background: hsl(var(--card));
+    padding: 28px 20px;
+    display: flex; flex-direction: column;
+  }
+  .brand { margin-bottom: 24px; }
+  .eyebrow {
+    display: inline-block;
+    font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase;
+    color: hsl(var(--brand-text)); background: hsl(var(--brand-soft));
+    border-radius: 999px; padding: 4px 10px; margin-bottom: 12px;
+  }
+  .brand h1 { font-size: 17px; font-weight: 700; letter-spacing: -.01em; margin: 0 0 4px; line-height: 1.3; }
+  .brand p { margin: 0; font-size: 13px; color: hsl(var(--muted-foreground)); }
+
+  nav { display: flex; flex-direction: column; gap: 2px; }
+  .nav-label {
+    font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase;
+    color: hsl(var(--muted-foreground)); padding: 0 10px; margin-bottom: 8px;
+  }
+  nav a {
+    display: flex; align-items: center; gap: 10px;
+    padding: 8px 10px; border-radius: 8px;
+    font-size: 14px; font-weight: 500; text-decoration: none;
+    color: hsl(var(--muted-foreground)); transition: background .15s, color .15s;
+  }
+  nav a:hover { background: hsl(var(--secondary)); color: hsl(var(--foreground)); }
+  nav a.active { background: hsl(var(--secondary)); color: hsl(var(--foreground)); font-weight: 600; }
+  nav a .n {
+    flex: none; width: 20px; height: 20px; border-radius: 6px;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 700;
+    background: hsl(var(--muted)); color: hsl(var(--muted-foreground));
+    border: 1px solid hsl(var(--border));
+  }
+  nav a.active .n { background: hsl(var(--primary)); color: hsl(var(--primary-foreground)); border-color: hsl(var(--primary)); }
+
+  .side-foot { margin-top: auto; padding-top: 20px; display: flex; flex-direction: column; gap: 8px; }
+
+  main { flex: 1; min-width: 0; }
+  .content { max-width: 1060px; padding: 48px 48px 96px; }
+
+  /* ---------- buttons ---------- */
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    height: 36px; padding: 0 14px; border-radius: var(--radius);
+    font-size: 13.5px; font-weight: 600; text-decoration: none;
+    background: hsl(var(--primary)); color: hsl(var(--primary-foreground));
+    border: 1px solid hsl(var(--primary)); transition: opacity .15s;
+  }
+  .btn:hover { opacity: .88; }
+  .btn.secondary { background: hsl(var(--card)); color: hsl(var(--foreground)); border-color: hsl(var(--border)); }
+  .btn.secondary:hover { opacity: 1; background: hsl(var(--secondary)); }
+
+  /* ---------- sections ---------- */
+  section { scroll-margin-top: 24px; margin-bottom: 56px; }
+  section:last-of-type { margin-bottom: 24px; }
+  .sec-head { margin-bottom: 6px; }
+  .sec-num {
+    font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+    color: hsl(var(--brand-text)); display: block; margin-bottom: 6px;
+  }
+  h2 { font-size: 22px; font-weight: 600; letter-spacing: -.015em; margin: 0; }
+  .hint { color: hsl(var(--muted-foreground)); font-size: 14px; margin: 6px 0 16px; }
+
+  .card {
+    background: hsl(var(--card)); border: 1px solid hsl(var(--border));
+    border-radius: var(--radius); overflow: hidden;
+  }
+  .card + .card { margin-top: 14px; }
+  .card-head {
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    padding: 10px 12px 10px 16px; border-bottom: 1px solid hsl(var(--border));
+    background: hsl(var(--muted));
+  }
+  .card-title { font-size: 13px; font-weight: 600; color: hsl(var(--muted-foreground)); }
+  pre {
+    margin: 0; padding: 18px 20px; overflow: visible;
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 13px; line-height: 1.7; white-space: pre-wrap; word-wrap: break-word;
+  }
+  pre strong { font-weight: 700; color: hsl(var(--foreground)); letter-spacing: .02em; }
+  .body-pad { padding: 20px; }
+
+  .copy {
+    display: inline-flex; align-items: center; gap: 6px;
+    height: 30px; padding: 0 10px; border-radius: 8px; cursor: pointer;
+    font-family: inherit; font-size: 12.5px; font-weight: 600;
+    background: hsl(var(--card)); color: hsl(var(--foreground));
+    border: 1px solid hsl(var(--border)); transition: background .15s;
+  }
+  a.copy { text-decoration: none; color: hsl(var(--foreground)); }
+  .copy:hover { background: hsl(var(--secondary)); }
+  .copy.done { color: hsl(var(--success-text)); border-color: hsl(var(--success)); background: hsl(var(--success-soft)); }
+  .copy svg { width: 14px; height: 14px; }
+
+  .coupon {
+    display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+    padding: 20px; border-radius: var(--radius);
+    background: hsl(var(--brand-soft)); border: 1px solid hsl(var(--brand) / .35);
+  }
+  .code {
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 24px; font-weight: 600; letter-spacing: .04em; color: hsl(var(--brand-text));
+  }
+  h3 { font-size: 14px; font-weight: 600; margin: 0 0 8px; }
+  ol.steps { margin: 0; padding-left: 20px; }
+  ol.steps li { margin-bottom: 6px; }
+  ol.steps li:last-child { margin-bottom: 0; }
+  ol.steps li::marker { color: hsl(var(--muted-foreground)); font-weight: 600; }
+
+  video { width: 100%; display: block; background: hsl(var(--muted)); }
+
+  /* ---------- start here ---------- */
+  .start {
+    border: 1px solid hsl(var(--border)); border-radius: var(--radius);
+    background: hsl(var(--card)); padding: 24px 28px; margin-bottom: 48px;
+  }
+  .start h2 { font-size: 18px; margin: 0 0 4px; }
+  .start p { margin: 0 0 18px; font-size: 14px; color: hsl(var(--muted-foreground)); }
+  .start-links { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .start-link {
+    display: block; text-decoration: none; color: inherit;
+    border: 1px solid hsl(var(--border)); border-radius: 10px; padding: 14px 16px;
+    transition: border-color .15s, background .15s;
+  }
+  .start-link:hover { border-color: hsl(var(--brand)); background: hsl(var(--brand-soft) / .5); }
+  .start-link .k { display: block; font-size: 14px; font-weight: 600; margin-bottom: 2px; }
+  .start-link .u {
+    display: block; font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 12.5px; color: hsl(var(--brand-text)); word-break: break-all;
+  }
+  .start-link .d { display: block; font-size: 12.5px; color: hsl(var(--muted-foreground)); margin-top: 6px; }
+  @media (max-width: 700px) { .start-links { grid-template-columns: 1fr; } }
+
+  /* ---------- capability grid ---------- */
+  .caps { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 0 0 20px; }
+  .cap {
+    border: 1px solid hsl(var(--border)); border-radius: 10px; padding: 14px 16px;
+    background: hsl(var(--background));
+  }
+  .cap .t { display: block; font-size: 13.5px; font-weight: 600; margin-bottom: 4px; }
+  .cap .b { display: block; font-size: 13px; color: hsl(var(--muted-foreground)); line-height: 1.5; }
+  .cap .tag {
+    display: inline-block; font-size: 10.5px; font-weight: 700; letter-spacing: .06em;
+    text-transform: uppercase; color: hsl(var(--brand-text)); background: hsl(var(--brand-soft));
+    border-radius: 999px; padding: 2px 8px; margin-bottom: 8px;
+  }
+  @media (max-width: 700px) { .caps { grid-template-columns: 1fr; } }
+
+  /* ---------- warning note ---------- */
+  .warn {
+    display: flex; gap: 12px; align-items: flex-start;
+    margin: 14px 0 0; padding: 14px 16px; border-radius: var(--radius);
+    background: hsl(var(--warning-soft)); border: 1px solid hsl(var(--warning) / .45);
+    color: hsl(var(--warning-text));
+  }
+  .warn svg { flex: none; width: 18px; height: 18px; margin-top: 1px; }
+  .warn p { margin: 0; font-size: 13.5px; line-height: 1.55; }
+  .warn strong { font-weight: 700; }
+
+  /* ---------- stat strip ---------- */
+  .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px;
+           background: hsl(var(--border)); border: 1px solid hsl(var(--border));
+           border-radius: var(--radius); overflow: hidden; margin-bottom: 20px; }
+  .stat { background: hsl(var(--card)); padding: 16px 18px; }
+  .stat .v { display: block; font-size: 26px; font-weight: 700; letter-spacing: -.02em; line-height: 1.1; }
+  .stat .l { display: block; font-size: 12px; color: hsl(var(--muted-foreground)); margin-top: 4px; }
+  @media (max-width: 700px) { .stats { grid-template-columns: 1fr 1fr; } }
+
+  /* ---------- flow steps ---------- */
+  .steps-flow { display: flex; align-items: stretch; gap: 0; margin: 0 0 20px; flex-wrap: wrap; }
+  .fstep {
+    flex: 1 1 180px; min-width: 160px;
+    border: 1px solid hsl(var(--border)); border-radius: 10px;
+    padding: 16px; background: hsl(var(--background));
+  }
+  .fstep .ico {
+    width: 34px; height: 34px; border-radius: 9px; margin-bottom: 10px;
+    display: flex; align-items: center; justify-content: center;
+    background: hsl(var(--brand-soft)); color: hsl(var(--brand-text));
+  }
+  .fstep .ico svg { width: 17px; height: 17px; }
+  .fstep .t { display: block; font-size: 13.5px; font-weight: 600; }
+  .fstep .b { display: block; font-size: 12.5px; color: hsl(var(--muted-foreground)); margin-top: 3px; line-height: 1.5; }
+  .fstep.later { border-style: dashed; border-color: hsl(var(--brand) / .5); background: hsl(var(--brand-soft) / .35); }
+  .fstep .when {
+    display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: .05em;
+    text-transform: uppercase; color: hsl(var(--brand-text)); background: hsl(var(--brand-soft));
+    border-radius: 999px; padding: 2px 7px; margin-top: 8px;
+  }
+  .arrow {
+    flex: 0 0 32px; display: flex; align-items: center; justify-content: center;
+    color: hsl(var(--muted-foreground));
+  }
+  .arrow svg { width: 16px; height: 16px; }
+  @media (max-width: 760px) {
+    .steps-flow { flex-direction: column; }
+    .arrow { flex: none; height: 24px; transform: rotate(90deg); }
+  }
+
+  /* ---------- diagram ---------- */
+  .diagram { border: 1px solid hsl(var(--border)); border-radius: var(--radius);
+             overflow: hidden; background: hsl(var(--card)); margin: 0 0 20px; }
+  .diagram-img { display: block; width: 100%; height: auto; background: hsl(0 0% 98%); }
+  .diagram figcaption {
+    padding: 12px 16px; font-size: 12.5px; color: hsl(var(--muted-foreground));
+    border-top: 1px solid hsl(var(--border)); background: hsl(var(--muted));
+  }
+  .diagram figcaption strong { color: hsl(var(--foreground)); font-weight: 600; }
+
+  /* capability card icon */
+  .cap .ico {
+    width: 30px; height: 30px; border-radius: 8px; margin-bottom: 10px;
+    display: flex; align-items: center; justify-content: center;
+    background: hsl(var(--secondary)); color: hsl(var(--foreground));
+  }
+  .cap .ico svg { width: 16px; height: 16px; }
+
+  /* ---------- knowledge base doc ---------- */
+  details.doc-toggle > summary {
+    list-style: none; cursor: pointer; user-select: none;
+    display: flex; align-items: center; gap: 8px;
+    padding: 13px 16px; font-size: 13.5px; font-weight: 600;
+    color: hsl(var(--foreground)); transition: background .15s;
+  }
+  details.doc-toggle > summary::-webkit-details-marker { display: none; }
+  details.doc-toggle > summary:hover { background: hsl(var(--secondary)); }
+  details.doc-toggle > summary .chev { width: 16px; height: 16px; transition: transform .18s; color: hsl(var(--muted-foreground)); }
+  details.doc-toggle[open] > summary .chev { transform: rotate(90deg); }
+  details.doc-toggle > summary .meta { margin-left: auto; font-weight: 500; font-size: 12.5px; color: hsl(var(--muted-foreground)); }
+  details.doc-toggle[open] > summary { border-bottom: 1px solid hsl(var(--border)); }
+  details.doc-toggle > summary .label-closed { display: inline; }
+  details.doc-toggle > summary .label-open { display: none; }
+  details.doc-toggle[open] > summary .label-closed { display: none; }
+  details.doc-toggle[open] > summary .label-open { display: inline; }
+
+  .doc { padding: 28px 32px; }
+  .doc-title { font-size: 20px; font-weight: 700; letter-spacing: -.01em; margin: 0 0 4px; }
+  .doc-sub { font-size: 13.5px; color: hsl(var(--muted-foreground)); margin: 0 0 24px; }
+  .doc h4 {
+    font-size: 15px; font-weight: 700; margin: 28px 0 10px;
+    padding-top: 18px; border-top: 1px solid hsl(var(--border));
+  }
+  .doc h5 { font-size: 13.5px; font-weight: 600; margin: 18px 0 6px; }
+  .doc p { margin: 0 0 12px; font-size: 14px; color: hsl(var(--muted-foreground)); }
+  .doc ul { margin: 0 0 12px; padding-left: 20px; }
+  .doc li { font-size: 14px; color: hsl(var(--muted-foreground)); margin-bottom: 5px; }
+  .doc li::marker { color: hsl(var(--brand)); }
+  .doc .quote {
+    margin: 4px 0 0; padding: 14px 18px; border-radius: 8px;
+    background: hsl(var(--brand-soft)); color: hsl(var(--brand-text));
+    font-size: 14px; font-style: italic;
+  }
+  .doc-note {
+    margin: 0 0 14px; padding: 12px 14px; border-radius: 8px;
+    background: hsl(var(--warning-soft)); color: hsl(var(--warning-text));
+    border: 1px solid hsl(var(--warning) / .4);
+    font-size: 12.5px; font-weight: 500; line-height: 1.55;
+  }
+  .doc-note strong { font-weight: 700; }
+  .doc table { width: 100%; border-collapse: collapse; margin: 4px 0 12px; font-size: 13.5px; }
+  .doc th, .doc td {
+    text-align: left; vertical-align: top; padding: 10px 12px;
+    border-bottom: 1px solid hsl(var(--border));
+  }
+  .doc th { font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .05em;
+            color: hsl(var(--muted-foreground)); background: hsl(var(--muted)); }
+  .doc td { color: hsl(var(--muted-foreground)); }
+  .doc td:first-child { font-weight: 600; color: hsl(var(--foreground)); white-space: nowrap; }
+  .doc-scroll { overflow-x: auto; }
+
+  .usecase p { margin: 0 0 20px; color: hsl(var(--muted-foreground)); }
+  .usecase p:last-child { margin-bottom: 0; }
+  .flow { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 20px; }
+  .pill {
+    font-size: 12.5px; font-weight: 600; padding: 5px 12px; border-radius: 999px;
+    background: hsl(var(--secondary)); border: 1px solid hsl(var(--border));
+  }
+  a { color: hsl(var(--brand-text)); }
+
+  /* ---------- mobile ---------- */
+  @media (max-width: 900px) {
+    .shell { display: block; }
+    aside {
+      position: static; width: auto; height: auto;
+      border-right: 0; border-bottom: 1px solid hsl(var(--border));
+      padding: 24px 18px 16px;
+    }
+    nav { flex-direction: row; overflow-x: auto; gap: 6px; padding-bottom: 4px; }
+    nav a { white-space: nowrap; border: 1px solid hsl(var(--border)); }
+    .nav-label { display: none; }
+    .side-foot { margin-top: 16px; flex-direction: row; }
+    .side-foot .btn { flex: 1; }
+    .content { padding: 32px 18px 64px; }
+    section { scroll-margin-top: 16px; }
+    h2 { font-size: 20px; }
+  }
+</style>
+</head>
+<body>
+<div class="shell">
+
+  <aside>
+    <div class="brand">
+      <span class="eyebrow">Simplilearn × Lyzr</span>
+      <h1>AI SDR Outreach Assistant</h1>
+      <p>Workshop resources</p>
+    </div>
+
+    <nav id="nav">
+      <span class="nav-label">Sections</span>
+      <a href="#start"><span class="n">→</span>Start here</a>
+      <a href="#use-case"><span class="n">1</span>Use case</a>
+      <a href="#kb"><span class="n">2</span>Knowledge base</a>
+      <a href="#prompt"><span class="n">3</span>Build prompt</a>
+      <a href="#iteration"><span class="n">4</span>Connect Gmail</a>
+      <a href="#coupon"><span class="n">5</span>Coupon</a>
+    </nav>
+
+    <div class="side-foot">
+      <a class="btn" href="https://architect.new/" target="_blank" rel="noopener">Architect ↗</a>
+      <a class="btn secondary" href="https://studio.lyzr.ai/" target="_blank" rel="noopener">Agent Studio ↗</a>
+    </div>
+  </aside>
+
+  <main>
+    <div class="content">
+
+      <!-- 0. START HERE -->
+      <section id="start" class="start">
+        <h2>Start here</h2>
+        <p>Open both of these before we begin — you'll build in Architect and refine in Studio.</p>
+        <div class="start-links">
+          <a class="start-link" href="https://architect.new/" target="_blank" rel="noopener">
+            <span class="k">Lyzr Architect ↗</span>
+            <span class="u">https://architect.new/</span>
+            <span class="d">Where you'll describe the app and get a working first version.</span>
+          </a>
+          <a class="start-link" href="https://studio.lyzr.ai/" target="_blank" rel="noopener">
+            <span class="k">Lyzr Agent Studio ↗</span>
+            <span class="u">https://studio.lyzr.ai/</span>
+            <span class="d">Where your agents, knowledge base, and tools live once it's built.</span>
+          </a>
+        </div>
+      </section>
+
+      <!-- 1. USE CASE -->
+      <section id="use-case">
+        <div class="sec-head">
+          <span class="sec-num">Section 1</span>
+          <h2>The use case</h2>
+        </div>
+        <p class="hint">What we're solving, what we're building, and what you'll walk away knowing.</p>
+        <div class="stats">
+          <div class="stat"><span class="v">6</span><span class="l">agents orchestrated</span></div>
+          <div class="stat"><span class="v">2</span><span class="l">tools — web search + Gmail</span></div>
+          <div class="stat"><span class="v">1</span><span class="l">knowledge base (RAG)</span></div>
+          <div class="stat"><span class="v">1</span><span class="l">prompt to get started</span></div>
+        </div>
+        <div class="card body-pad usecase">
+          <h3>The problem</h3>
+          <p>Every SDR does the same thing before sending a single email: dig through a company's website and news, guess who the right person is, then try to write something that doesn't read like a template. It takes hours per account — and it still comes out generic. Scale that to a hundred accounts and the personalisation is the first thing to go.</p>
+
+          <h3>What we're building</h3>
+          <p>An AI SDR Outreach Assistant that does the whole chain in one run. You give it a target company and a document about your own company. It researches the target live, works out which roles are actually worth approaching, matches your value propositions to their likely pain, and writes a personalised draft email.</p>
+          <p>Then it goes one step further. We connect Gmail as a <strong>tool</strong>, so one click on "save as draft" and a Gmail agent creates the email in your actual inbox — subject, body, ready to review and send. That's the moment it stops being a text generator and starts being software that does something in the real world on your behalf.</p>
+          <p>The important part: every claim about <em>your</em> company comes from your uploaded document. The agents can't invent a feature, a customer, or a price — if it isn't in the knowledge base, it doesn't go in the email.</p>
+
+          <h3>The flow</h3>
+          <div class="steps-flow">
+            <div class="fstep">
+              <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
+              <span class="t">1 · Research</span>
+              <span class="b">Live web search on the target company — signals, size, pain points.</span>
+            </div>
+            <div class="arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
+            <div class="fstep">
+              <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+              <span class="t">2 · Prospects</span>
+              <span class="b">The roles worth approaching, each with a reason it fits your ICP.</span>
+            </div>
+            <div class="arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
+            <div class="fstep">
+              <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+              <span class="t">3 · Outreach</span>
+              <span class="b">A personalised, editable draft email plus 2–3 alternative opening hooks.</span>
+            </div>
+            <div class="arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
+            <div class="fstep later">
+              <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></div>
+              <span class="t">4 · Save to Gmail</span>
+              <span class="b">Hit "save as draft" and a Gmail tool agent writes it straight into your real inbox — ready to send.</span>
+              <span class="when">Added in Section 4</span>
+            </div>
+          </div>
+
+          <h3>The orchestration you'll build</h3>
+          <figure class="diagram">
+            <img class="diagram-img" src="assets/agent-orchestration.png" alt="Agent orchestration graph: Target Company Input feeds the Research Agent, then the Prospect Agent, into the Outreach Coordinator, which routes to the Personalisation Agent, Writer Agent, and Gmail Draft Agent, producing the Outreach Draft." />
+            <figcaption><strong>This is the real graph in Lyzr Studio.</strong> Input flows through Research and Prospect agents into an Outreach Coordinator, which orchestrates Personalisation, Writer, and Gmail Draft agents. The small badges on the nodes are attached knowledge bases and tools.</figcaption>
+          </figure>
+
+          <h3>What you'll actually learn to build</h3>
+          <div class="caps">
+            <div class="cap">
+              <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg></div>
+              <span class="tag">RAG</span>
+              <span class="t">A grounded knowledge base</span>
+              <span class="b">Attach your company document and the platform handles retrieval for you — chunking, embedding, and pulling back the right passage at the right moment, so agents answer from your data instead of guessing.</span>
+            </div>
+            <div class="cap">
+              <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></div>
+              <span class="tag">Multi-agent</span>
+              <span class="t">Four agents, orchestrated</span>
+              <span class="b">Not one prompt doing everything. Research, Prospect, Personalisation, and Writer agents each own one job and hand off down the chain — the output of one becomes the input of the next.</span>
+            </div>
+            <div class="cap">
+              <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg></div>
+              <span class="tag">Tools</span>
+              <span class="t">Agents that reach the real world</span>
+              <span class="b">We'll give the Research Agent web search so it can pull live company signals, then attach Gmail so the app writes a real draft into a real inbox.</span>
+            </div>
+            <div class="cap">
+              <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
+              <span class="tag">Prompt → App</span>
+              <span class="t">From a prompt to a working UI</span>
+              <span class="b">You'll go from one prompt to a running app with a real interface — then iterate on it live, in front of you, in a single session.</span>
+            </div>
+          </div>
+
+          <h3>The agents</h3>
+          <p><strong>Research Agent</strong> — searches the web for the target company's overview, size, recent signals, and likely pain points.<br />
+          <strong>Prospect Agent</strong> — reads that research against your ICP and suggests the roles worth targeting, with a reason for each.<br />
+          <strong>Personalisation Agent</strong> — maps your value propositions to that prospect's specific needs.<br />
+          <strong>Writer Agent</strong> — drafts the email plus alternative opening hooks, strictly grounded in your knowledge base.</p>
+
+          <h3>By the end of the session</h3>
+          <p>You'll have a working multi-agent application, grounded in your own data, wired to live web search, and connected to your Gmail — pick a company, run it, and find a personalised draft waiting in your inbox. Built from a single prompt, in one sitting. That's the whole point: this is not a demo you watch, it's an app you leave with.</p>
+        </div>
+      </section>
+
+      <!-- 2. KNOWLEDGE BASE -->
+      <section id="kb">
+        <div class="sec-head">
+          <span class="sec-num">Section 2</span>
+          <h2>The knowledge base</h2>
+        </div>
+        <p class="hint">This is the company document you'll upload into the app. Everything the agents say about Lyzr comes from here.</p>
+
+        <div class="card">
+          <div class="card-head">
+            <span class="card-title">Lyzr_Company_KB.docx</span>
+            <a class="copy" href="assets/Lyzr_Company_KB.docx" download>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              <span>Download .docx</span>
+            </a>
+          </div>
+
+          <details class="doc-toggle">
+            <summary>
+              <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+              <span class="label-closed">Preview the document</span>
+              <span class="label-open">Hide the document</span>
+              <span class="meta">6 sections · what the agents are grounded in</span>
+            </summary>
+            <div class="doc">
+            <p class="doc-title">Lyzr — Company Knowledge Base</p>
+            <p class="doc-sub">Reference document for the AI SDR Outreach Assistant — grounds prospect research and outreach in what Lyzr does, who it's for, and how it's sold.</p>
+
+            <h4>1. What Lyzr Does</h4>
+            <p>Lyzr is an agentic AI platform that lets teams build, deploy, and govern AI agents and agent-powered applications — without stitching together frameworks and infrastructure from scratch. The goal is to take an idea for an AI agent and turn it into a working, deployable application in minutes rather than weeks.</p>
+            <p>Lyzr is built for teams that want the speed of a no-code / low-code builder but the control, security, and governance that real enterprise deployments demand. Agents can be grounded in a company's own data, equipped with tools, wrapped in guardrails, tested, and deployed — including into an organisation's own cloud environment.</p>
+
+            <h4>2. The Product</h4>
+            <h5>Architect</h5>
+            <p>Architect (architect.new) is the rapid build surface. You describe the agent or app you want, and Architect generates a working first version — the agents, the logic, and a usable UI — that you can immediately run and iterate on. It compresses the distance from idea to working prototype so teams can see something real fast and refine from there.</p>
+            <ul>
+              <li>Rapid prototyping: prototype an agent app from a prompt in minutes, not days</li>
+              <li>From idea to working draft: agents, workflow, and a functional UI generated together</li>
+              <li>Iterate in place: attach knowledge bases, wire in tools, and refine live</li>
+            </ul>
+            <h5>Studio</h5>
+            <p>Studio is the full build and control environment where a prototype becomes something you'd put in front of a customer. It's where you customise agents in depth, tune their behaviour, add guardrails, test in a playground, and manage the app as it matures toward production.</p>
+            <ul>
+              <li>Deep customisation: fine-tune agent behaviour, prompts, models, tools, and knowledge</li>
+              <li>Governance &amp; testing: guardrails, testing, and playground before anything ships</li>
+              <li>Production path: take an app from prototype to production-grade</li>
+            </ul>
+            <h5>Deployment</h5>
+            <p>Lyzr apps can run on Lyzr's cloud or be deployed into an organisation's own cloud environment — AWS, Azure, or GCP — so data and agents stay inside the customer's security perimeter. This private-deployment capability is what makes Lyzr suitable for regulated and enterprise buyers, not just individual builders.</p>
+
+            <h4>3. Value Propositions</h4>
+            <ul>
+              <li><strong>Speed to working app:</strong> go from an idea to a working, deployable agent app in minutes — the fastest path from concept to something real.</li>
+              <li><strong>Grounded in your data:</strong> agents are grounded in your own documents and data, so outputs reflect your business, not just a model's general knowledge.</li>
+              <li><strong>Governance built in:</strong> guardrails, testing, and controls are built into the platform rather than bolted on afterward.</li>
+              <li><strong>Deploy in your own cloud:</strong> deploy into your own AWS, Azure, or GCP environment so sensitive data never leaves your perimeter.</li>
+              <li><strong>One platform, prototype to production:</strong> prototype fast in Architect, then harden and scale in Studio — one platform across the whole lifecycle.</li>
+              <li><strong>From single agent to multi-agent:</strong> build single-purpose agents or orchestrated multi-agent systems as needs grow.</li>
+            </ul>
+
+            <h4>4. Ideal Customer Profile</h4>
+            <p>Lyzr sells to organisations that want to build and operate AI agents seriously — where speed matters, but security, data control, and governance are non-negotiable.</p>
+            <h5>Best-fit organisations</h5>
+            <ul>
+              <li>Enterprises and mid-market companies building agentic AI into their products or internal operations</li>
+              <li>Regulated or security-conscious industries — financial services, insurance, consulting, and similar — that need private, in-their-own-cloud deployment</li>
+              <li>Teams that have tried assembling agents from raw frameworks and want speed plus governance instead of maintenance overhead</li>
+            </ul>
+            <h5>Typical buyers and champions</h5>
+            <ul>
+              <li>Product and engineering leaders responsible for shipping AI features</li>
+              <li>Innovation, AI, or digital-transformation teams standing up agentic use cases</li>
+              <li>Operations leaders (e.g. revenue, support, HR) looking to automate knowledge-heavy workflows with grounded agents</li>
+            </ul>
+            <h5>Signals a prospect is a strong fit</h5>
+            <ul>
+              <li>Publicly talking about AI adoption, automation, or agentic initiatives</li>
+              <li>Hiring for AI / ML / agent-building roles</li>
+              <li>Operating in a data-sensitive domain where a public SaaS-only tool would be a blocker</li>
+              <li>Already experimenting with LLM tools but struggling to get past prototypes into production</li>
+            </ul>
+
+            <h4>5. Pricing</h4>
+            <p class="doc-note"><strong>VERIFY BEFORE SHARING</strong> — The tiers below are representative placeholders for the demo. Replace plan names, inclusions, and any figures with Lyzr's current official pricing before sharing this document with webinar participants — the agent will quote whatever is written here as fact.</p>
+            <div class="doc-scroll">
+              <table>
+                <thead>
+                  <tr><th>Plan</th><th>Who it's for</th><th>What's included</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>Free</td><td>Individuals exploring agent building</td><td>Access to Architect for prototyping, a set number of build credits, community support</td></tr>
+                  <tr><td>Pro</td><td>Solo builders and small teams shipping real apps</td><td>Higher build credits, Studio access, deploy to production, priority support</td></tr>
+                  <tr><td>Team</td><td>Growing teams building agentic products together</td><td>Shared workspaces, collaboration, usage analytics, expanded credits</td></tr>
+                  <tr><td>Enterprise</td><td>Organisations needing private, governed deployments</td><td>Deploy in your own cloud (AWS / Azure / GCP), SSO, guardrails &amp; governance, dedicated support, custom SLAs</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <p>Enterprise pricing is quoted based on deployment model, scale, and support requirements. Private-cloud deployment, SSO, advanced governance, and custom SLAs are enterprise-tier capabilities.</p>
+
+            <h4>6. One-Line Positioning (for outreach)</h4>
+            <p class="quote">"Lyzr helps teams turn an idea for an AI agent into a working, governed, deployable app in minutes — grounded in your own data, and deployable inside your own cloud."</p>
+            </div>
+          </details>
+        </div>
+      </section>
+
+
+      <!-- 3. PROMPT -->
+      <section id="prompt">
+        <div class="sec-head">
+          <span class="sec-num">Section 3</span>
+          <h2>The build prompt</h2>
+        </div>
+        <p class="hint">Copy this and paste it into Architect to generate the app.</p>
+        <div class="card">
+          <div class="card-head">
+            <span class="card-title">Paste into Architect</span>
+            <button class="copy" data-copy-target="build-prompt">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              <span>Copy prompt</span>
+            </button>
+          </div>
+          <pre id="build-prompt"><strong>AI SDR Outreach Assistant</strong>
+
+<strong>GOAL</strong>
+Given a target company the user wants to sell into, research that company, identify the best prospects to reach out to, and draft personalised outreach — all grounded in the user's own company details from an uploaded knowledge base. The app runs as a clear three-step flow: Research → Prospects → Outreach.
+
+<strong>AGENTS</strong>
+
+- Research Agent: researches the target company using web search — overview, industry, size, recent news/signals, and likely business pain points.
+
+- Prospect Agent: using the company research plus the user's ICP and product from the knowledge base, identifies the roles/personas most worth targeting at that company, each with a short reason it's a fit.
+
+- Personalisation Agent: matches the user's value propositions (from the knowledge base) to the selected prospect's likely needs.
+- Writer Agent: drafts a personalised outreach email plus 2–3 alternative one-line opening hooks.
+  - All claims about the user's own company, product, capabilities, value propositions, and pricing MUST come only from the uploaded knowledge base. Do not invent, assume, or embellish any capability, feature, or figure that is not in the document. If something isn't in the knowledge base, don't claim it.
+  - Reference the user's specific product or offering by name (from the knowledge base) at least once in the email, where it reads naturally.
+  - Details about the prospect and their company come from the research step, not the knowledge base.
+
+<strong>INPUTS</strong>
+
+- Knowledge base: a document describing the user's company — what it does, product, value propositions, ideal customer profile, and pricing.
+- Target company: the name of the company the user wants to sell into.
+- Optional: a specific prospect name and role, if the user already has one (skips discovery).
+
+<strong>FLOW (step by step; each step appears only after the previous one completes)</strong>
+
+1. Research the company — user uploads the company knowledge base and enters the target company, then clicks "Research Company". The Research Agent returns a company research summary.
+2. Find prospects — the Prospect Agent suggests 3–4 target roles/personas at that company, each with a one-line reason it fits the user's ICP. The user selects one, or enters their own prospect name/role.
+3. Generate outreach — the Personalisation and Writer Agents produce a personalised draft email and alternative hooks for the selected prospect.
+
+<strong>OUTPUT (revealed progressively as each step completes)</strong>
+
+1. Company Research Summary — overview, recent signals, inferred pain points.
+2. Suggested Prospects — 3–4 roles/personas with fit reasons, shown as selectable cards.
+3. Draft Email — editable text area with subject line and body, and a "Copy" button in its top-right.
+4. Alternative Hooks — 2–3 one-line options listed below the draft.
+
+<strong>UI/UX</strong>
+
+- Single screen, two-column layout. Clean and professional, generous whitespace.
+- A visible 3-step progress indicator at the top of the right column: Research → Prospects → Outreach, highlighting the current step.
+- Left column (~35%): a "Your Company" card with the knowledge base upload (shows a "ready" state once uploaded); below it a "Target Company" card with a company-name field and a primary "Research Company" button. After step 1, a "Prospects" section appears with the suggested prospects as selectable cards. Once a prospect is selected, a primary "Generate Outreach" button appears.
+- Right column (~65%): step 1 shows the Research Summary; step 2 shows Suggested Prospects; step 3 shows the Draft Email (editable, with Copy button) and Alternative Hooks beneath it.
+- Show a loading state on the right column while any step is running.
+- Empty state before step 1: a short placeholder line telling the user to upload their company doc and enter a target company to begin.
+- The final step ends at an editable, copyable draft. Do not send email.</pre>
+        </div>
+      </section>
+
+      <!-- 4. ITERATION -->
+      <section id="iteration">
+        <div class="sec-head">
+          <span class="sec-num">Section 4</span>
+          <h2>Iteration — connect Gmail</h2>
+        </div>
+        <p class="hint">Once your app is working, send this as a follow-up prompt.</p>
+        <div class="card">
+          <div class="card-head">
+            <span class="card-title">Iteration prompt</span>
+            <button class="copy" data-copy-target="iteration-prompt">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              <span>Copy prompt</span>
+            </button>
+          </div>
+          <pre id="iteration-prompt">can you also add a agent that can connect to my gmail and create a mail draft in my gmail with the generated outreach content upon clicking save content as draft.</pre>
+        </div>
+      </section>
+
+      <!-- 5. COUPON -->
+      <section id="coupon">
+        <div class="sec-head">
+          <span class="sec-num">Section 5</span>
+          <h2>Apply your coupon</h2>
+        </div>
+        <p class="hint">Use this code to top up your workshop credits.</p>
+
+        <div class="warn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          <p><strong>Apply this only after your $20 free credits are used up.</strong> Applying the coupon while you still have your default $20 balance will overwrite it — you'll lose whatever is left. Build with your free credits first, and come back to this once they run out.</p>
+        </div>
+
+        <div class="coupon" style="margin-top:14px">
+          <span class="code" id="coupon-code">ARCHITECT50</span>
+          <button class="copy" data-copy-target="coupon-code">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            <span>Copy code</span>
+          </button>
+        </div>
+
+        <div class="card" style="margin-top:14px">
+          <div class="card-head"><span class="card-title">How to apply it</span></div>
+          <video controls preload="metadata">
+            <source src="assets/coupon-walkthrough.mp4" type="video/mp4" />
+            Your browser does not support video playback.
+          </video>
+        </div>
+      </section>
+
+    </div>
+  </main>
+</div>
+
+<script>
+  /* copy buttons */
+  document.querySelectorAll('.copy[data-copy-target]').forEach(function (btn) {
+    btn.addEventListener('click', async function () {
+      var text = document.getElementById(btn.dataset.copyTarget).innerText;
+      try {
+        await navigator.clipboard.writeText(text);
+      } catch (e) {
+        var ta = document.createElement('textarea');
+        ta.value = text;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+      }
+      var label = btn.querySelector('span');
+      var original = label.textContent;
+      label.textContent = 'Copied';
+      btn.classList.add('done');
+      setTimeout(function () {
+        label.textContent = original;
+        btn.classList.remove('done');
+      }, 1800);
+    });
+  });
+
+  /* scroll-spy: highlight the section currently in view */
+  var links = Array.prototype.slice.call(document.querySelectorAll('#nav a'));
+  var sections = links.map(function (a) { return document.querySelector(a.getAttribute('href')); });
+
+  function setActive(id) {
+    links.forEach(function (a) {
+      a.classList.toggle('active', a.getAttribute('href') === '#' + id);
+    });
+  }
+
+  function onScroll() {
+    var current = sections[0];
+    sections.forEach(function (s) {
+      if (s.getBoundingClientRect().top <= 120) current = s;
+    });
+    /* pin the last section once scrolled to the bottom */
+    if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 4) {
+      current = sections[sections.length - 1];
+    }
+    setActive(current.id);
+  }
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll);
+  onScroll();
+</script>
+</body>
+</html>

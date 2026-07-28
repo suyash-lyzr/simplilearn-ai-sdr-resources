@@ -1,0 +1,15 @@
+# macOS
+.DS_Store
+
+# editor / tooling
+.vscode/
+.cursor/
+.claude/
+.basecode/
+.mcp.json
+
+# source material (rendered into index.html; not needed to serve the site)
+reference/
+
+# internal design system — only the compiled sage.css is published
+sage-design-system/
