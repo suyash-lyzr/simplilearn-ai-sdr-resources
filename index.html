@@ -109,6 +109,14 @@
     font-size: 13px; line-height: 1.7; white-space: pre-wrap; word-wrap: break-word;
   }
   pre strong { font-weight: 700; color: hsl(var(--foreground)); letter-spacing: .02em; }
+  /* the build prompt is long — cap it at half the viewport and scroll inside */
+  #build-prompt { max-height: 50vh; overflow-y: auto; overscroll-behavior: contain; }
+  #build-prompt::-webkit-scrollbar { width: 10px; }
+  #build-prompt::-webkit-scrollbar-thumb {
+    background: hsl(var(--border)); border-radius: 999px;
+    border: 3px solid hsl(var(--card));
+  }
+  #build-prompt::-webkit-scrollbar-thumb:hover { background: hsl(var(--muted-foreground) / .5); }
   .body-pad { padding: 20px; }
 
   .copy {
@@ -582,7 +590,7 @@
           <span class="sec-num">Section 3</span>
           <h2>The build prompt</h2>
         </div>
-        <p class="hint">Copy this and paste it into Architect to generate the app.</p>
+        <p class="hint">Copy this and paste it into Architect to generate the app. The box scrolls — <strong>Copy prompt</strong> always takes the whole thing.</p>
         <div class="card">
           <div class="card-head">
             <span class="card-title">Paste into Architect</span>
